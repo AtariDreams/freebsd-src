@@ -39,15 +39,12 @@
 #include <sys/_null.h>
 #include <sys/_types.h>
 
-#if __BSD_VISIBLE
-#include <sys/stat.h>
-#endif
-
 /*
  * Prototype functions which were historically defined in <string.h>, but
  * are required by POSIX to be prototyped in <strings.h>.
  */
 #if __BSD_VISIBLE
+#include <sys/stat.h>
 #include <strings.h>
 #endif
 
