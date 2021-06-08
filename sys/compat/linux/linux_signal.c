@@ -50,6 +50,7 @@ __FBSDID("$FreeBSD$");
 #include <machine/../linux/linux.h>
 #include <machine/../linux/linux_proto.h>
 #endif
+#include <compat/linux/linux_mib.h>
 #include <compat/linux/linux_signal.h>
 #include <compat/linux/linux_timer.h>
 #include <compat/linux/linux_util.h>
@@ -397,8 +398,8 @@ linux_rt_sigtimedwait(struct thread *td,
 	struct l_timespec lts;
 	l_sigset_t lset;
 	sigset_t bset;
-	l_siginfo_t linfo;
-	ksiginfo_t info;
+	l_siginfo_t lsi;
+	ksiginfo_t ksi;
 
 	if (args->sigsetsize != sizeof(l_sigset_t))
 		return (EINVAL);
@@ -418,16 +419,16 @@ linux_rt_sigtimedwait(struct thread *td,
 	} else
 		tsa = NULL;
 
-	error = kern_sigtimedwait(td, bset, &info, tsa);
+	error = kern_sigtimedwait(td, bset, &ksi, tsa);
 	if (error)
 		return (error);
 
-	sig = bsd_to_linux_signal(info.ksi_signo);
+	sig = bsd_to_linux_signal(ksi.ksi_signo);
 
 	if (args->ptr) {
-		memset(&linfo, 0, sizeof(linfo));
-		ksiginfo_to_lsiginfo(&info, &linfo, sig);
-		error = copyout(&linfo, args->ptr, sizeof(linfo));
+		memset(&lsi, 0, sizeof(lsi));
+		siginfo_to_lsiginfo(&ksi.ksi_info, &lsi, sig);
+		error = copyout(&lsi, args->ptr, sizeof(lsi));
 	}
 	if (error == 0)
 		td->td_retval[0] = sig;
@@ -541,13 +542,6 @@ linux_tkill(struct thread *td, struct linux_tkill_args *args)
 	return (linux_do_tkill(td, tdt, &ksi));
 }
 
-void
-ksiginfo_to_lsiginfo(const ksiginfo_t *ksi, l_siginfo_t *lsi, l_int sig)
-{
-
-	siginfo_to_lsiginfo(&ksi->ksi_info, lsi, sig);
-}
-
 static void
 sicode_to_lsicode(int si_code, int *lsi_code)
 {
@@ -651,17 +645,40 @@ siginfo_to_lsiginfo(const siginfo_t *si, l_siginfo_t *lsi, l_int sig)
 	}
 }
 
-void
-lsiginfo_to_ksiginfo(const l_siginfo_t *lsi, ksiginfo_t *ksi, int sig)
+int
+lsiginfo_to_siginfo(struct thread *td, const l_siginfo_t *lsi,
+    siginfo_t *si, int sig)
 {
 
-	ksi->ksi_signo = sig;
-	ksi->ksi_code = lsi->lsi_code;	/* XXX. Convert. */
-	ksi->ksi_pid = lsi->lsi_pid;
-	ksi->ksi_uid = lsi->lsi_uid;
-	ksi->ksi_status = lsi->lsi_status;
-	ksi->ksi_addr = PTRIN(lsi->lsi_addr);
-	ksi->ksi_info.si_value.sival_int = lsi->lsi_int;
+	switch (lsi->lsi_code) {
+	case LINUX_SI_TKILL:
+		if (linux_kernver(td) >= LINUX_KERNVER_2006039) {
+			linux_msg(td, "SI_TKILL forbidden since 2.6.39");
+			return (EPERM);
+		}
+		si->si_code = SI_LWP;
+	case LINUX_SI_QUEUE:
+		si->si_code = SI_QUEUE;
+		break;
+	case LINUX_SI_TIMER:
+		si->si_code = SI_TIMER;
+		break;
+	case LINUX_SI_MESGQ:
+		si->si_code = SI_MESGQ;
+		break;
+	case LINUX_SI_ASYNCIO:
+		si->si_code = SI_ASYNCIO;
+		break;
+	default:
+		si->si_code = lsi->lsi_code;
+		break;
+	}
+
+	si->si_signo = sig;
+	si->si_pid = td->td_proc->p_pid;
+	si->si_uid = td->td_ucred->cr_ruid;
+	si->si_value.sival_ptr = PTRIN(lsi->lsi_value.sival_ptr);
+	return (0);
 }
 
 int
@@ -681,9 +698,14 @@ linux_rt_sigqueueinfo(struct thread *td, struct linux_rt_sigqueueinfo_args *args
 		return (error);
 
 	if (linfo.lsi_code >= 0)
+		/* SI_USER, SI_KERNEL */
 		return (EPERM);
 
 	sig = linux_to_bsd_signal(args->sig);
+	ksiginfo_init(&ksi);
+	error = lsiginfo_to_siginfo(td, &linfo, &ksi.ksi_info, sig);
+	if (error != 0)
+		return (error);
 
 	error = ESRCH;
 	if ((p = pfind_any(args->pid)) != NULL) {
@@ -692,9 +714,6 @@ linux_rt_sigqueueinfo(struct thread *td, struct linux_rt_sigqueueinfo_args *args
 			PROC_UNLOCK(p);
 			return (error);
 		}
-
-		ksiginfo_init(&ksi);
-		lsiginfo_to_ksiginfo(&linfo, &ksi, sig);
 		error = tdsendsignal(p, NULL, sig, &ksi);
 		PROC_UNLOCK(p);
 	}
@@ -721,12 +740,15 @@ linux_rt_tgsigqueueinfo(struct thread *td, struct linux_rt_tgsigqueueinfo_args *
 	if (linfo.lsi_code >= 0)
 		return (EPERM);
 
+	sig = linux_to_bsd_signal(args->sig);
+	ksiginfo_init(&ksi);
+	error = lsiginfo_to_siginfo(td, &linfo, &ksi.ksi_info, sig);
+	if (error != 0)
+		return (error);
+
 	tds = linux_tdfind(td, args->tid, args->tgid);
 	if (tds == NULL)
 		return (ESRCH);
 
-	sig = linux_to_bsd_signal(args->sig);
-	ksiginfo_init(&ksi);
-	lsiginfo_to_ksiginfo(&linfo, &ksi, sig);
 	return (linux_do_tkill(td, tds, &ksi));
 }
