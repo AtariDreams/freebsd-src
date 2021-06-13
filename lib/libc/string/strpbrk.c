@@ -44,12 +44,12 @@ char *
 strpbrk(const char *s1, const char *s2)
 {
 	const char *scanp;
-	int c, sc;
+	char c, sc;
 
-	while ((c = *s1++) != 0) {
-		for (scanp = s2; (sc = *scanp++) != '\0';)
+	while ((c = *s1) != '\0') {
+		for (scanp = s2; (sc = *scanp) != '\0'; scanp++)
 			if (sc == c)
-				return ((char *)(s1 - 1));
+				return ((char *)s1);
 	}
 	return (NULL);
 }
