@@ -48,7 +48,7 @@ swab(const void * __restrict from, void * __restrict to, ssize_t len)
 	const char *fp;
 	char *tp;
 
-	if (len <= 0)
+	if (len <= 1)
 		return;
 	n = len >> 1;
 	fp = (const char *)from;
