@@ -49,7 +49,6 @@ __FBSDID("$FreeBSD$");
 int
 wcscmp(const wchar_t *s1, const wchar_t *s2)
 {
-
 	while (*s1 == *s2) {
 		if (*s1 == '\0')
 			return (0);
