@@ -45,12 +45,13 @@ swab(const void * __restrict from, void * __restrict to, ssize_t len)
 {
 	unsigned long temp;
 	int n;
-	char *fp, *tp;
+	const char *fp;
+	char *tp;
 
 	if (len <= 0)
 		return;
 	n = len >> 1;
-	fp = (char *)from;
+	fp = (const char *)from;
 	tp = (char *)to;
 #define	STEP	temp = *fp++,*tp++ = *fp++,*tp++ = temp
 	/* round to multiple of 8 */
