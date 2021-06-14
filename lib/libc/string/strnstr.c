@@ -54,10 +54,10 @@ strnstr(const char *s, const char *find, size_t slen)
 		const size_t len = strlen(find);
 		do {
 			do {
-				if (slen-- < 1 || (sc = *s) == '\0')
+				if (slen < len || (sc = *s) == '\0')
 					return (NULL);
 
-				s++;
+				slen--, s++;
 			} while (sc != c);
 			if (len > slen)
 				return (NULL);
