@@ -43,10 +43,10 @@ __FBSDID("$FreeBSD$");
 char *
 strpbrk(const char *s1, const char *s2)
 {
-	const char *scanp;
+	const char *scanp, *scanc;
 	char c, sc;
 
-	while ((c = *s1) != '\0') {
+	for (scanc = s1; (c = *scanc) != '\0'; scanc++) {
 		for (scanp = s2; (sc = *scanp) != '\0'; scanp++)
 			if (sc == c)
 				return ((char *)s1);
