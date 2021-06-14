@@ -43,6 +43,7 @@ strcat(char * __restrict s, const char * __restrict append)
 	char * const save = s;
 
 	for (; *s; ++s);
+
 	while ((*s = *append) != '\0') s++, append++;
 	return(save);
 }
