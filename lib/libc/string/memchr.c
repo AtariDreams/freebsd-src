@@ -49,12 +49,15 @@ memchr(const void *src, int c, size_t n)
 		const word *w;
 		const size_t k = ONES * uc;
 		for (w = (const void *)s; n >= SS && !HASZERO(*w ^ k);
-		     w++, n -= SS)
-			;
+		     n -= SS)
+			w++;
 		s = (const void *)w;
 	}
 #endif
-	for (; n && *s != uc; s++, n--)
-		;
-	return n ? (void *)s : 0;
+	for (; n; n--) {
+		if (*s == uc)
+		     return (void *)s;
+		s++;
+	}
+	return NULL;
 }
