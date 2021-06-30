@@ -45,5 +45,5 @@ wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 		if (c1 == L'\0' || --n == 0)
 			return (0);
 	}
-	/*NOTREACHED*/
+	/* NOTREACHED */
 }
