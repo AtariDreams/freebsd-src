@@ -43,5 +43,5 @@ wcscasecmp(const wchar_t *s1, const wchar_t *s2)
 		if (c1 == L'\0')
 			return (0);
 	}
-	/*NOTREACHED*/
+	/* NOTREACHED */
 }
