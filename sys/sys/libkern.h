@@ -158,8 +158,8 @@ int	 flsll(long long);
 
 int	 fnmatch(const char *, const char *, int);
 int	 locc(int, char *, u_int);
-void	*memchr(const void *s, int c, size_t n);
-void	*memcchr(const void *s, int c, size_t n);
+void	*memchr(const void *s, int c, size_t n) __pure;
+void	*memcchr(const void *s, int c, size_t n) __pure;
 void	*memmem(const void *l, size_t l_len, const void *s, size_t s_len);
 void	 qsort(void *base, size_t nmemb, size_t size,
 	    int (*compar)(const void *, const void *));
@@ -167,35 +167,35 @@ void	 qsort_r(void *base, size_t nmemb, size_t size, void *thunk,
 	    int (*compar)(void *, const void *, const void *));
 u_long	 random(void);
 int	 scanc(u_int, const u_char *, const u_char *, int);
-int	 strcasecmp(const char *, const char *);
-char	*strcasestr(const char *, const char *);
+int	 strcasecmp(const char *, const char *) __pure;
+char	*strcasestr(const char *, const char *) __pure;
 char	*strcat(char * __restrict, const char * __restrict);
-char	*strchr(const char *, int);
-char	*strchrnul(const char *, int);
-int	 strcmp(const char *, const char *);
+char	*strchr(const char *, int) __pure;
+char	*strchrnul(const char *, int) __pure;
+int	 strcmp(const char *, const char *) __pure;
 char	*strcpy(char * __restrict, const char * __restrict);
-size_t	 strcspn(const char * __restrict, const char * __restrict) __pure;
-char	*strdup_flags(const char *__restrict, struct malloc_type *, int);
-char	*strdup(const char *__restrict, struct malloc_type *);
-char	*strncat(char *, const char *, size_t);
+size_t	 strcspn(const char *, const char *) __pure;
+char	*strdup_flags(const char *__restrict, struct malloc_type *, int) __malloc_like;
+char	*strdup(const char *__restrict, struct malloc_type *) __malloc_like;
+char	*strncat(char * __restrict, const char * __restrict, size_t);
 char	*strndup(const char *__restrict, size_t, struct malloc_type *);
-size_t	 strlcat(char *, const char *, size_t);
-size_t	 strlcpy(char *, const char *, size_t);
-size_t	 strlen(const char *);
-int	 strncasecmp(const char *, const char *, size_t);
-int	 strncmp(const char *, const char *, size_t);
+size_t	 strlcat(char * __restrict, const char * __restrict, size_t);
+size_t	 strlcpy(char * __restrict, const char * __restrict, size_t);
+size_t	 strlen(const char *) __pure;
+int	 strncasecmp(const char *, const char *, size_t) __pure;
+int	 strncmp(const char *, const char *, size_t) __pure;
 char	*strncpy(char * __restrict, const char * __restrict, size_t);
-size_t	 strnlen(const char *, size_t);
-char	*strrchr(const char *, int);
+size_t	 strnlen(const char *, size_t) __pure;
+char	*strrchr(const char *, int) __pure;
 char	*strsep(char **, const char *delim);
-size_t	 strspn(const char *, const char *);
-char	*strstr(const char *, const char *);
-int	 strvalid(const char *, size_t);
+size_t	 strspn(const char *, const char *) __pure;
+char	*strstr(const char *, const char *) __pure;
+int	 strvalid(const char *, size_t) __pure;
 
 #ifdef KCSAN
-char	*kcsan_strcpy(char *, const char *);
-int	kcsan_strcmp(const char *, const char *);
-size_t	kcsan_strlen(const char *);
+char	*kcsan_strcpy(char * __restrict, const char * __restrict);
+int	kcsan_strcmp(const char *, const char *) __pure;
+size_t	kcsan_strlen(const char *) __pure;
 #define	strcpy(d, s) kcsan_strcpy((d), (s))
 #define	strcmp(s1, s2) kcsan_strcmp((s1), (s2))
 #define	strlen(s) kcsan_strlen((s))
