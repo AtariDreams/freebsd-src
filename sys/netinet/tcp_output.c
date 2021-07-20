@@ -226,9 +226,7 @@ tcp_output(struct tcpcb *tp)
 #endif
 #ifdef INET6
 	struct ip6_hdr *ip6 = NULL;
-	int isipv6;
-
-	isipv6 = (tp->t_inpcb->inp_vflag & INP_IPV6) != 0;
+	const bool isipv6 = (tp->t_inpcb->inp_vflag & INP_IPV6) != 0;
 #endif
 #ifdef KERN_TLS
 	const bool hw_tls = (so->so_snd.sb_flags & SB_TLS_IFNET) != 0;
