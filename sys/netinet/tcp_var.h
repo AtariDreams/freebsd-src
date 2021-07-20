@@ -1142,7 +1142,7 @@ tcp_fields_to_net(struct tcphdr *th)
 
 static inline void
 tcp_account_for_send(struct tcpcb *tp, uint32_t len, uint8_t is_rxt,
-    uint8_t is_tlp, int hw_tls)
+    uint8_t is_tlp, bool hw_tls)
 {
 	uint64_t rexmit_percent;
 
