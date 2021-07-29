@@ -56,12 +56,12 @@
 #define	MM_INFO		4	/* Informative message. */
 
 /* Null options. */
-#define	MM_NULLLBL	(char *)0
+#define	MM_NULLLBL	NULL
 #define	MM_NULLSEV	0
 #define	MM_NULLMC	0L
-#define	MM_NULLTXT	(char *)0
-#define	MM_NULLACT	(char *)0
-#define	MM_NULLTAG	(char *)0
+#define	MM_NULLTXT	NULL
+#define	MM_NULLACT	NULL
+#define	MM_NULLTAG	NULL
 
 /* Return values. */
 #define	MM_OK		0	/* Success. */

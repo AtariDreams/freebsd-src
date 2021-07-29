@@ -72,7 +72,7 @@ start_pr(char *file1, char *file2)
 			close(pfd[0]);
 		}
 		close(pfd[1]);
-		execl(_PATH_PR, _PATH_PR, "-h", header, (char *)0);
+		execl(_PATH_PR, _PATH_PR, "-h", header, NULL);
 		_exit(127);
 	default:
 

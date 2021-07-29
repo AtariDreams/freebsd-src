@@ -814,7 +814,7 @@ read_for_group(const char *group, struct netgr_state *st, int niscompat)
 			    strlen(group), &result, &resultlen)) {
 				free(result);
 				if (_use_only_yp)
-					return ((struct linelist *)0);
+					return (NULL);
 				else {
 					_netgr_yp_enabled = 0;
 					continue;

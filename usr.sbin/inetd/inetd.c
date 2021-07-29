@@ -2051,8 +2051,8 @@ again:
 		if (c == ' ' || c == '\t')
 			if ((cp = nextline(fconfig)))
 				goto again;
-		*cpp = (char *)0;
-		return ((char *)0);
+		*cpp = NULL;
+		return (NULL);
 	}
 	if (*cp == '"' || *cp == '\'')
 		quote = *cp++;
@@ -2075,7 +2075,7 @@ nextline(FILE *fd)
 	char *cp;
 
 	if (fgets(line, sizeof (line), fd) == NULL)
-		return ((char *)0);
+		return (NULL);
 	cp = strchr(line, '\n');
 	if (cp)
 		*cp = '\0';

@@ -231,7 +231,7 @@ repquota(struct fstab *fs, int type)
 		if (dqbuf.dqb_curinodes == 0 && dqbuf.dqb_curblocks == 0)
 			continue;
 		if ((fup = lookup(id, type)) == 0)
-			fup = addid(id, type, (char *)0);
+			fup = addid(id, type, NULL);
 		printf("%-*s ", max(MAXLOGNAME - 1, 10), fup->fu_name);
 		printf("%c%c", 
 		    dqbuf.dqb_bsoftlimit &&

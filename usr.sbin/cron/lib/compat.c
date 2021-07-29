@@ -100,7 +100,7 @@ setsid()
 #  endif
 	if ((fd = open(_PATH_TTY, 2)) >= 0)
 	{
-		(void) ioctl(fd, TIOCNOTTY, (char*)0);
+		(void) ioctl(fd, TIOCNOTTY, NULL);
 		(void) close(fd);
 	}
 # else /*BSD*/

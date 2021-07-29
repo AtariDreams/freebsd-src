@@ -74,14 +74,14 @@ struct netgrp {
 #define NG_USER		1	/* User name */
 #define NG_DOM		2	/* and Domain name */
 
-static struct linelist	*linehead = (struct linelist *)0;
-static struct netgrp	*nextgrp = (struct netgrp *)0;
+static struct linelist	*linehead = NULL;
+static struct netgrp	*nextgrp  = NULL;
 static struct {
 	struct netgrp	*gr;
 	char		*grname;
 } grouphead = {
 	(struct netgrp *)0,
-	(char *)0,
+	NULL,
 };
 static int parse_netgrp(char *group);
 static struct linelist *read_for_group(char *group);
@@ -148,10 +148,10 @@ __endnetgrent(void)
 		free(olp->l_line);
 		free((char *)olp);
 	}
-	linehead = (struct linelist *)0;
+	linehead = NULL;
 	if (grouphead.grname) {
 		free(grouphead.grname);
-		grouphead.grname = (char *)0;
+		grouphead.grname = NULL;
 	}
 	gp = grouphead.gr;
 	while (gp) {
@@ -165,7 +165,7 @@ __endnetgrent(void)
 			free(ogp->ng_str[NG_DOM]);
 		free((char *)ogp);
 	}
-	grouphead.gr = (struct netgrp *)0;
+	grouphead.gr = NULL;
 }
 
 /*

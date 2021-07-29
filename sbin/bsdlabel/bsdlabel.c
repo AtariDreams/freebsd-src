@@ -687,9 +687,9 @@ editit(void)
 		uid = getuid();
 		if (setresuid(uid, uid, uid) == -1)
 			err(1, "setresuid");
-		if ((ed = getenv("EDITOR")) == (char *)0)
+		if ((ed = getenv("EDITOR")) == NULL)
 			ed = DEFEDITOR;
-		execlp(ed, ed, tmpfil, (char *)0);
+		execlp(ed, ed, tmpfil, NULL);
 		err(1, "%s", ed);
 	}
 	while ((xpid = wait(&locstat)) >= 0)

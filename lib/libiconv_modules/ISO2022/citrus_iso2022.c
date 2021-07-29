@@ -1157,7 +1157,7 @@ sideok:
 	len = (size_t)(p - tmp);
 	if (n < len) {
 		if (result)
-			*result = (char *)0;
+			*result = NULL;
 		*nresult = (size_t)-1;
 		return (E2BIG);
 	}

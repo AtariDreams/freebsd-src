@@ -467,10 +467,10 @@ static const struct limits limits[] = {
 	{ "locked memory",	"kbytes",	RLIMIT_MEMLOCK, 1024, 'l' },
 #endif
 #ifdef RLIMIT_NPROC
-	{ "max user processes",	(char *)0,	RLIMIT_NPROC,      1, 'u' },
+	{ "max user processes",	NULL,	RLIMIT_NPROC,      1, 'u' },
 #endif
 #ifdef RLIMIT_NOFILE
-	{ "open files",		(char *)0,	RLIMIT_NOFILE,     1, 'n' },
+	{ "open files",		NULL,	RLIMIT_NOFILE,     1, 'n' },
 #endif
 #ifdef RLIMIT_VMEM
 	{ "virtual mem size",	"kbytes",	RLIMIT_VMEM,	1024, 'v' },
@@ -482,15 +482,15 @@ static const struct limits limits[] = {
 	{ "socket buffer size",	"bytes",	RLIMIT_SBSIZE,	   1, 'b' },
 #endif
 #ifdef RLIMIT_NPTS
-	{ "pseudo-terminals",	(char *)0,	RLIMIT_NPTS,	   1, 'p' },
+	{ "pseudo-terminals",	NULL,	RLIMIT_NPTS,	   1, 'p' },
 #endif
 #ifdef RLIMIT_KQUEUES
-	{ "kqueues",		(char *)0,	RLIMIT_KQUEUES,	   1, 'k' },
+	{ "kqueues",		NULL,	RLIMIT_KQUEUES,	   1, 'k' },
 #endif
 #ifdef RLIMIT_UMTXP
-	{ "umtx shared locks",	(char *)0,	RLIMIT_UMTXP,	   1, 'o' },
+	{ "umtx shared locks",	NULL,	RLIMIT_UMTXP,	   1, 'o' },
 #endif
-	{ (char *) 0,		(char *)0,	0,		   0, '\0' }
+	{ (char *) 0,		NULL,	0,		   0, '\0' }
 };
 
 enum limithow { SOFT = 0x1, HARD = 0x2 };

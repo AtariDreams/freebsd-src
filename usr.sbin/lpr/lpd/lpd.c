@@ -257,7 +257,7 @@ main(int argc, char **argv)
 		if (pid < 0) {
 			err(EX_OSERR, "cannot fork");
 		} else if (pid == 0) {	/* child */
-			execl(_PATH_CHKPRINTCAP, _PATH_CHKPRINTCAP, (char *)0);
+			execl(_PATH_CHKPRINTCAP, _PATH_CHKPRINTCAP, NULL);
 			err(EX_OSERR, "cannot execute %s", _PATH_CHKPRINTCAP);
 		}
 		if (waitpid(pid, &status, 0) < 0) {

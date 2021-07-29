@@ -688,7 +688,7 @@ print(struct printer *pp, int format, char *file)
 			execl(_PATH_PR, "pr", width, length,
 			    "-h", *title ? title : " ",
 			    "-L", *locale ? locale : "C",
-			    "-F", (char *)0);
+			    "-F", NULL);
 			syslog(LOG_ERR, "cannot execl %s", _PATH_PR);
 			exit(2);
 		}
@@ -1575,7 +1575,7 @@ sendmail(struct printer *pp, char *userid, int bombed)
 			cp++;
 		else
 			cp = _PATH_SENDMAIL;
-		execl(_PATH_SENDMAIL, cp, "-t", (char *)0);
+		execl(_PATH_SENDMAIL, cp, "-t", NULL);
 		_exit(0);
 	} else if (s > 0) {				/* parent */
 		dup2(p[1], STDOUT_FILENO);
@@ -1821,7 +1821,7 @@ openpr(const struct printer *pp)
 			else
 				cp++;
 			execl(pp->filters[LPF_OUTPUT], cp, width, length,
-			      (char *)0);
+			      NULL);
 			syslog(LOG_ERR, "%s: execl(%s): %m", pp->printer,
 			    pp->filters[LPF_OUTPUT]);
 			exit(1);
@@ -1935,7 +1935,7 @@ openrem(const struct printer *pp)
 		(void)signal(SIGALRM, savealrm);
 		if (pfd >= 0) {
 			if ((writel(pfd, "\2", pp->remote_queue, "\n", 
-				    (char *)0)
+				    NULL)
 			     == 2 + strlen(pp->remote_queue))
 			    && (resp = response(pp)) == 0)
 				break;
@@ -1965,7 +1965,7 @@ setty(const struct printer *pp)
 {
 	struct termios ttybuf;
 
-	if (ioctl(pfd, TIOCEXCL, (char *)0) < 0) {
+	if (ioctl(pfd, TIOCEXCL, NULL) < 0) {
 		syslog(LOG_ERR, "%s: ioctl(TIOCEXCL): %m", pp->printer);
 		exit(1);
 	}
@@ -2009,7 +2009,7 @@ pstatus(const struct printer *pp, const char *msg, ...)
 	ftruncate(fd, 0);
 	vasprintf(&buf, msg, ap);
 	va_end(ap);
-	writel(fd, buf, "\n", (char *)0);
+	writel(fd, buf, "\n", NULL);
 	close(fd);
 	free(buf);
 }

@@ -58,7 +58,7 @@ static inline void	 swapfunc(char *, char *, size_t, int, int);
 }
 
 #define	SWAPINIT(TYPE, a, es) swaptype_ ## TYPE =	\
-	((char *)a - (char *)0) % sizeof(TYPE) ||	\
+	((char *)a - NULL) % sizeof(TYPE) ||	\
 	es % sizeof(TYPE) ? 2 : es == sizeof(TYPE) ? 0 : 1;
 
 static inline void

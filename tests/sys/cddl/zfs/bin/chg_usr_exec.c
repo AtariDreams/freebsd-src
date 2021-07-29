@@ -69,7 +69,7 @@ main(int argc, char *argv[])
 		return (errno);
 	}
 
-	if (execl("/bin/sh", "sh",  "-c", cmds, (char *)0) != 0) {
+	if (execl("/bin/sh", "sh",  "-c", cmds, NULL) != 0) {
 		perror("execl");
 		return (errno);
 	}

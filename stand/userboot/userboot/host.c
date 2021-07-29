@@ -58,8 +58,8 @@ static int
 host_close(struct open_file *f)
 {
 
-        CALLBACK(close, f->f_fsdata);
-	f->f_fsdata = (void *)0;
+    CALLBACK(close, f->f_fsdata);
+	f->f_fsdata = NULL;
 
 	return (0);
 }

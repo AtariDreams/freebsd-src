@@ -312,9 +312,9 @@ typedef struct ecore_list_t
 /* push an element on the head of the list */
 #define ECORE_LIST_PUSH_HEAD(_elem, _list)              \
     do {                                                \
-        (_elem)->prev = (ecore_list_entry_t *)0;        \
+        (_elem)->prev = NULL;        \
         (_elem)->next = (_list)->head;                  \
-        if ((_list)->tail == (ecore_list_entry_t *)0) { \
+        if ((_list)->tail == NULL) { \
             (_list)->tail = (_elem);                    \
         } else {                                        \
             (_list)->head->prev = (_elem);              \
@@ -326,7 +326,7 @@ typedef struct ecore_list_t
 /* push an element on the tail of the list */
 #define ECORE_LIST_PUSH_TAIL(_elem, _list)       \
     do {                                         \
-        (_elem)->next = (ecore_list_entry_t *)0; \
+        (_elem)->next = NULL; \
         (_elem)->prev = (_list)->tail;           \
         if ((_list)->tail) {                     \
             (_list)->tail->next = (_elem);       \
@@ -360,9 +360,9 @@ typedef struct ecore_list_t
             if ((_list)->head) {                                   \
                 (_list)->head = (_list)->head->next;               \
                 if ((_list)->head) {                               \
-                    (_list)->head->prev = (ecore_list_entry_t *)0; \
+                    (_list)->head->prev = NULL; \
                 } else {                                           \
-                    (_list)->tail = (ecore_list_entry_t *)0;       \
+                    (_list)->tail = NULL;       \
                 }                                                  \
                 (_list)->cnt--;                                    \
             }                                                      \
@@ -370,9 +370,9 @@ typedef struct ecore_list_t
             if ((_list)->tail) {                                   \
                 (_list)->tail = (_list)->tail->prev;               \
                 if ((_list)->tail) {                               \
-                    (_list)->tail->next = (ecore_list_entry_t *)0; \
+                    (_list)->tail->next = NULL; \
                 } else {                                           \
-                    (_list)->head = (ecore_list_entry_t *)0;       \
+                    (_list)->head = NULL;       \
                 }                                                  \
                 (_list)->cnt--;                                    \
             }                                                      \

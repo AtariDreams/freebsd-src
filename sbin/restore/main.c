@@ -222,7 +222,7 @@ main(int argc, char *argv[])
 			 * This is a level zero dump tape.
 			 */
 			vprintf(stdout, "Begin level 0 restore\n");
-			initsymtable((char *)0);
+			initsymtable(NULL);
 			extractdirs(1);
 			vprintf(stdout, "Calculate extraction list.\n");
 			treescan(".", UFS_ROOTINO, nodeupdates);
@@ -256,7 +256,7 @@ main(int argc, char *argv[])
 	case 't':
 		setup();
 		extractdirs(0);
-		initsymtable((char *)0);
+		initsymtable(NULL);
 		while (argc--) {
 			canon(*argv++, name, sizeof(name));
 			ino = dirlookup(name);
@@ -271,7 +271,7 @@ main(int argc, char *argv[])
 	case 'x':
 		setup();
 		extractdirs(1);
-		initsymtable((char *)0);
+		initsymtable(NULL);
 		while (argc--) {
 			canon(*argv++, name, sizeof(name));
 			ino = dirlookup(name);

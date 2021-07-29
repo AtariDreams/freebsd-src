@@ -90,7 +90,7 @@ main(int argc, char **argv)
 			DEBUG1("rmtd: error to open %s\n", *argv);
 			exit(1);
 		}
-		(void)setbuf(debug, (char *)0);
+		(void)setbuf(debug, NULL);
 	}
 top:
 	errno = 0;

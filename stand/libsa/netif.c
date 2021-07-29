@@ -310,7 +310,7 @@ netif_close(int sock)
 		return (-1);
 	}
 	netif_detach(sockets[sock].io_netif);
-	sockets[sock].io_netif = (struct netif *)0;
+	sockets[sock].io_netif = NULL;
 
 	return (0);
 }

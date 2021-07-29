@@ -604,8 +604,8 @@ checkfilesys(char *filesys)
 			printf("\n");
 		}
 	}
-	duplist = (struct dups *)0;
-	muldup = (struct dups *)0;
+	duplist = NULL;
+	muldup = NULL;
 	inocleanup();
 	if (fsmodified) {
 		sblock.fs_time = time(NULL);

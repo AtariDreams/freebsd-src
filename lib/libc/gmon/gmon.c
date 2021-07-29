@@ -222,7 +222,7 @@ moncontrol(int mode)
 		p->state = GMON_PROF_ON;
 	} else {
 		/* stop */
-		profil((char *)0, 0, 0, 0);
+		profil(NULL, 0, 0, 0);
 		p->state = GMON_PROF_OFF;
 	}
 }

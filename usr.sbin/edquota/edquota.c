@@ -457,9 +457,9 @@ editit(char *tmpf)
 			err(1, "setgid failed");
 		if (setuid(getuid()) != 0)
 			err(1, "setuid failed");
-		if ((ed = getenv("EDITOR")) == (char *)0)
+		if ((ed = getenv("EDITOR")) == NULL)
 			ed = _PATH_VI;
-		execlp(ed, ed, tmpf, (char *)0);
+		execlp(ed, ed, tmpf, NULL);
 		err(1, "%s", ed);
 	}
 	waitpid(pid, &status, 0);
@@ -559,7 +559,7 @@ readprivs(struct quotause *quplist, char *inname)
 			warnx("%s: bad format", line1);
 			return (0);
 		}
-		if ((cp = strtok((char *)0, "\n")) == NULL) {
+		if ((cp = strtok(NULL, "\n")) == NULL) {
 			warnx("%s: %s: bad format", fsp, &fsp[strlen(fsp) + 1]);
 			return (0);
 		}
@@ -737,7 +737,7 @@ readtimes(struct quotause *quplist, char *inname)
 			warnx("%s: bad format", line1);
 			return (0);
 		}
-		if ((cp = strtok((char *)0, "\n")) == NULL) {
+		if ((cp = strtok(NULL, "\n")) == NULL) {
 			warnx("%s: %s: bad format", fsp, &fsp[strlen(fsp) + 1]);
 			return (0);
 		}

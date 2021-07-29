@@ -574,7 +574,7 @@ makeenv(char *env[])
 		if (*p)
 			*ep++ = p;
 	}
-	*ep = (char *)0;
+	*ep = NULL;
 }
 
 /*

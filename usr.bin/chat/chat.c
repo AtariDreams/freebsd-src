@@ -1178,7 +1178,7 @@ get_string(char *string)
     char *s = temp, *end = s + STR_LEN;
     char *logged = temp;
 
-    fail_reason = (char *)0;
+    fail_reason = NULL;
 
     if (strlen(string) > STR_LEN) {
 	chat_logf("expect string is too long");

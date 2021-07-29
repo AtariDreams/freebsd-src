@@ -371,7 +371,7 @@ db_command(struct command **last_cmdp, struct command_table *cmd_table,
 	    modif[0] = '\0';
 	}
 	else if (t == tEXCL) {
-	    db_fncall((db_expr_t)0, (bool)false, (db_expr_t)0, (char *)0);
+	    db_fncall((db_expr_t)0, (bool)false, (db_expr_t)0, NULL);
 	    return;
 	}
 	else if (t != tIDENT) {

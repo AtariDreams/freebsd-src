@@ -1018,7 +1018,7 @@ res_destroyservicelist() {
 		free(slp->proto);
 		free(slp);
 	}
-	servicelist = (struct valuelist *)0;
+	servicelist = NULL;
 }
 #endif
 
@@ -1064,7 +1064,7 @@ res_destroyprotolist(void) {
 		free(plp->name);
 		free(plp);
 	}
-	protolist = (struct valuelist *)0;
+	protolist = NULL;
 }
 #endif
 
@@ -1098,7 +1098,7 @@ static
 #endif
 int
 res_servicenumber(const char *p) {
-	if (servicelist == (struct valuelist *)0)
+	if (servicelist == NULL)
 		res_buildservicelist();
 	return (findservice(p, &servicelist));
 }
@@ -1111,7 +1111,7 @@ static
 #endif
 int
 res_protocolnumber(const char *p) {
-	if (protolist == (struct valuelist *)0)
+	if (protolist == NULL)
 		res_buildprotolist();
 	return (findservice(p, &protolist));
 }
@@ -1173,7 +1173,7 @@ res_protocolname(int num) {
 	static char number[8];
 	struct protoent *pp;
 
-	if (protolist == (struct valuelist *)0)
+	if (protolist == NULL)
 		res_buildprotolist();
 	pp = cgetprotobynumber(num);
 	if (pp == NULL)  {
@@ -1188,7 +1188,7 @@ res_servicename(u_int16_t port, const char *proto) {	/*%< Host byte order. */
 	static char number[8];
 	struct servent *ss;
 
-	if (servicelist == (struct valuelist *)0)
+	if (servicelist == NULL)
 		res_buildservicelist();
 	ss = cgetservbyport(htons(port), proto);
 	if (ss == NULL)  {

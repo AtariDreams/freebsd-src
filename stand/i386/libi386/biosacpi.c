@@ -112,7 +112,7 @@ biosacpi_find_rsdp(void)
 	return (rsdp);
 
     /* Check the upper memory BIOS space, 0xe0000 - 0xfffff. */
-    if ((rsdp = biosacpi_search_rsdp((char *)0xe0000, 0x20000)) != NULL)
+    if ((rsdp = biosacpi_search_rsdp(NULLxe0000, 0x20000)) != NULL)
 	return (rsdp);
 
     return (NULL);

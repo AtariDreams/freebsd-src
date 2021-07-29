@@ -5332,7 +5332,7 @@ vm_map_print(vm_map_t map)
 				db_indent += 2;
 				vm_object_print((db_expr_t)(intptr_t)
 						entry->object.vm_object,
-						0, 0, (char *)0);
+						0, 0, NULL);
 				db_indent -= 2;
 			}
 		}

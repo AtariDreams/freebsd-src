@@ -134,7 +134,7 @@ mergesort(void *base, size_t nmemb, size_t size, cmp_t cmp)
 	 * Stupid subtraction for the Cray.
 	 */
 	iflag = 0;
-	if (!(size % ISIZE) && !(((char *)base - (char *)0) % ISIZE))
+	if (!(size % ISIZE) && !(((char *)base - NULL) % ISIZE))
 		iflag = 1;
 
 	if ((list2 = malloc(nmemb * size + PSIZE)) == NULL)

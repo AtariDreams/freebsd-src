@@ -405,33 +405,33 @@ p_fqname(const u_char *cp, const u_char *msg, FILE *file) {
  * C_ANY, but you can't have any records of that class in the database.)
  */
 const struct res_sym __p_class_syms[] = {
-	{C_IN,		"IN",		(char *)0},
-	{C_CHAOS,	"CH",		(char *)0},
-	{C_CHAOS,	"CHAOS",	(char *)0},
-	{C_HS,		"HS",		(char *)0},
-	{C_HS,		"HESIOD",	(char *)0},
-	{C_ANY,		"ANY",		(char *)0},
-	{C_NONE,	"NONE",		(char *)0},
-	{C_IN, 		(char *)0,	(char *)0}
+	{C_IN,		"IN",		NULL},
+	{C_CHAOS,	"CH",		NULL},
+	{C_CHAOS,	"CHAOS",	NULL},
+	{C_HS,		"HS",		NULL},
+	{C_HS,		"HESIOD",	NULL},
+	{C_ANY,		"ANY",		NULL},
+	{C_NONE,	"NONE",		NULL},
+	{C_IN, 		NULL,	NULL}
 };
 
 /*%
  * Names of message sections.
  */
 static const struct res_sym __p_default_section_syms[] = {
-	{ns_s_qd,	"QUERY",	(char *)0},
-	{ns_s_an,	"ANSWER",	(char *)0},
-	{ns_s_ns,	"AUTHORITY",	(char *)0},
-	{ns_s_ar,	"ADDITIONAL",	(char *)0},
-	{0,		(char *)0,	(char *)0}
+	{ns_s_qd,	"QUERY",	NULL},
+	{ns_s_an,	"ANSWER",	NULL},
+	{ns_s_ns,	"AUTHORITY",	NULL},
+	{ns_s_ar,	"ADDITIONAL",	NULL},
+	{0,		NULL,	NULL}
 };
 
 static const struct res_sym __p_update_section_syms[] = {
-	{S_ZONE,	"ZONE",		(char *)0},
-	{S_PREREQ,	"PREREQUISITE",	(char *)0},
-	{S_UPDATE,	"UPDATE",	(char *)0},
-	{S_ADDT,	"ADDITIONAL",	(char *)0},
-	{0,		(char *)0,	(char *)0}
+	{S_ZONE,	"ZONE",		NULL},
+	{S_PREREQ,	"PREREQUISITE",	NULL},
+	{S_UPDATE,	"UPDATE",	NULL},
+	{S_ADDT,	"ADDITIONAL",	NULL},
+	{0,		NULL,	NULL}
 };
 
 const struct res_sym __p_key_syms[] = {

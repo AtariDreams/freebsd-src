@@ -275,7 +275,7 @@ block_map(f, file_block, disk_block_p)
 		}
 
 		if (fp->f_blkno[level] != ind_block_num) {
-			if (fp->f_blk[level] == (char *)0)
+			if (fp->f_blk[level] == NULL)
 				fp->f_blk[level] =
 					malloc(fs->fs_bsize);
 			twiddle(1);
@@ -356,7 +356,7 @@ buf_write_file(f, buf_p, size_p)
 	if (((off > 0) || (*size_p + off < block_size)) &&
 	    (file_block != fp->f_buf_blkno)) {
 
-		if (fp->f_buf == (char *)0)
+		if (fp->f_buf == NULL)
 			fp->f_buf = malloc(fs->fs_bsize);
 
 		twiddle(4);
@@ -408,7 +408,7 @@ buf_read_file(f, buf_p, size_p)
 	block_size = sblksize(fs, DIP(fp, di_size), file_block);
 
 	if (file_block != fp->f_buf_blkno) {
-		if (fp->f_buf == (char *)0)
+		if (fp->f_buf == NULL)
 			fp->f_buf = malloc(fs->fs_bsize);
 
 		rc = block_map(f, file_block, &disk_block);
@@ -716,10 +716,11 @@ ufs_close(f)
 {
 	struct file *fp = (struct file *)f->f_fsdata;
 	int level;
-
-	f->f_fsdata = (void *)0;
-	if (fp == (struct file *)0)
+	
+	if (fp == NULL)
 		return (0);
+
+	f->f_fsdata = NULL;
 
 	for (level = 0; level < UFS_NIADDR; level++) {
 		if (fp->f_blk[level])

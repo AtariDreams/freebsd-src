@@ -77,7 +77,7 @@ __start(int argc, char **argv, char **env, struct ps_strings *ps_strings,
 
 	handle_argv(argc, argv, env);
 
-	if (ps_strings != (struct ps_strings *)0)
+	if (ps_strings != NULL)
 		__ps_strings = ps_strings;
 
 	if (&_DYNAMIC != NULL)
