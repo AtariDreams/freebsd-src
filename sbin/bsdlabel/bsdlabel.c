@@ -44,7 +44,7 @@
 
 #if 0
 #ifndef lint
-static const char copyright[] =
+static char const copyright[] =
 "@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
@@ -119,7 +119,7 @@ static int     part_set[MAX_NUM_PARTS];
 
 static int	installboot;	/* non-zero if we should install a boot program */
 static int	allfields;	/* present all fields in edit */
-static char const *xxboot;	/* primary boot */
+static  *xxboot;	/* primary boot */
 
 static uint32_t lba_offset;
 #ifndef LABELSECTOR

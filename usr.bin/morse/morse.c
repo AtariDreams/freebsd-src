@@ -32,14 +32,14 @@
  * <lyndon@orthanc.ca>
  */
 
-static const char copyright[] =
+static char const copyright[] =
 "@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 
 #if 0
 static char sccsid[] = "@(#)morse.c	8.1 (Berkeley) 5/31/93";
 #endif
-static const char rcsid[] =
+static char const rcsid[] =
  "$FreeBSD$";
 
 #include <sys/time.h>

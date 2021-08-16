@@ -5118,7 +5118,7 @@ unaryop		: '='		{ $$ = PF_OP_EQ; }
 %%
 
 int
-yyerror(const char *fmt, ...)
+yyerror(const char * __restrict fmt, ...)
 {
 	va_list		 ap;
 
@@ -5132,7 +5132,7 @@ yyerror(const char *fmt, ...)
 }
 
 int
-disallow_table(struct node_host *h, const char *fmt)
+disallow_table(struct node_host *h, const char * __restrict fmt)
 {
 	for (; h != NULL; h = h->next)
 		if (h->addr.type == PF_ADDR_TABLE) {
@@ -5143,7 +5143,7 @@ disallow_table(struct node_host *h, const char *fmt)
 }
 
 int
-disallow_urpf_failed(struct node_host *h, const char *fmt)
+disallow_urpf_failed(struct node_host *h, const char * __restrict fmt)
 {
 	for (; h != NULL; h = h->next)
 		if (h->addr.type == PF_ADDR_URPFFAILED) {
@@ -5154,7 +5154,7 @@ disallow_urpf_failed(struct node_host *h, const char *fmt)
 }
 
 int
-disallow_alias(struct node_host *h, const char *fmt)
+disallow_alias(struct node_host *h, const char * __restrict fmt)
 {
 	for (; h != NULL; h = h->next)
 		if (DYNIF_MULTIADDR(h->addr)) {

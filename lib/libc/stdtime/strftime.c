@@ -497,7 +497,7 @@ label:
 			case 'z':
 				{
 				int		diff;
-				char const *	sign;
+				 *	sign;
 
 				if (t->tm_isdst < 0)
 					continue;

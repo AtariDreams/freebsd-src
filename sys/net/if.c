@@ -4067,7 +4067,7 @@ if_initname(struct ifnet *ifp, const char *name, int unit)
 }
 
 static int
-if_vlog(struct ifnet *ifp, int pri, const char *fmt, va_list ap)
+if_vlog(struct ifnet * __restrict ifp, int pri, const char * __restrict fmt, va_list ap)
 {
 	char if_fmt[256];
 
@@ -4078,7 +4078,7 @@ if_vlog(struct ifnet *ifp, int pri, const char *fmt, va_list ap)
 
 
 int
-if_printf(struct ifnet *ifp, const char *fmt, ...)
+if_printf(struct ifnet * __restrict ifp, const char * __restrict fmt, ...)
 {
 	va_list ap;
 
@@ -4089,7 +4089,7 @@ if_printf(struct ifnet *ifp, const char *fmt, ...)
 }
 
 int
-if_log(struct ifnet *ifp, int pri, const char *fmt, ...)
+if_log(struct ifnet * __restrict ifp, int pri, const char * __restrict fmt, ...)
 {
 	va_list ap;
 

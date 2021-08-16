@@ -31,9 +31,9 @@
 .In sys/types.h
 .In unistd.h
 .Ft void
-.Fn setproctitle "const char *fmt" "..."
+.Fn setproctitle "const char * __restrict fmt" "..."
 .Ft void
-.Fn setproctitle_fast "const char *fmt" "..."
+.Fn setproctitle_fast "const char * __restrict fmt" "..."
 .Sh DESCRIPTION
 The
 .Fn setproctitle

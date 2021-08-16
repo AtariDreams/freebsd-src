@@ -30,7 +30,7 @@
  */
 
 #ifndef lint
-static const char copyright[] =
+static char const copyright[] =
 "@(#) Copyright (c) 1991, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */

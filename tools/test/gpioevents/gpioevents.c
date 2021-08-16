@@ -89,7 +89,7 @@ usage()
 }
 
 static void
-verbose(const char *fmt, ...)
+verbose(const char * __restrict fmt, ...)
 {
 	va_list args;
 

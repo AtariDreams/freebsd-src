@@ -527,7 +527,7 @@ ReadSet(FILE *f, const char *n, int column, const char *delim)
 }
 
 static void
-usage(char const *whine)
+usage( *whine)
 {
 	int i;
 

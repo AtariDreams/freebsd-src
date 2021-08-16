@@ -254,7 +254,7 @@
     extern void   __KAI_KMPC_CONVENTION  kmp_set_library_serial     (void);
     extern void   __KAI_KMPC_CONVENTION  kmp_set_library_turnaround (void);
     extern void   __KAI_KMPC_CONVENTION  kmp_set_library_throughput (void);
-    extern void   __KAI_KMPC_CONVENTION  kmp_set_defaults           (char const *);
+    extern void   __KAI_KMPC_CONVENTION  kmp_set_defaults           ( *);
     extern void   __KAI_KMPC_CONVENTION  kmp_set_disp_num_buffers   (int);
 
     /* Intel affinity API */
@@ -454,10 +454,10 @@
 #   endif
 
     /* OpenMP 5.0 Affinity Format */
-    extern void __KAI_KMPC_CONVENTION omp_set_affinity_format(char const *);
+    extern void __KAI_KMPC_CONVENTION omp_set_affinity_format( *);
     extern size_t __KAI_KMPC_CONVENTION omp_get_affinity_format(char *, size_t);
-    extern void __KAI_KMPC_CONVENTION omp_display_affinity(char const *);
-    extern size_t __KAI_KMPC_CONVENTION omp_capture_affinity(char *, size_t, char const *);
+    extern void __KAI_KMPC_CONVENTION omp_display_affinity( *);
+    extern size_t __KAI_KMPC_CONVENTION omp_capture_affinity(char *, size_t,  *);
 
     /* OpenMP 5.0 events */
 #   if defined(_WIN32)
