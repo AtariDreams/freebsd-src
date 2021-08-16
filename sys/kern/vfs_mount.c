@@ -2400,7 +2400,7 @@ dounmount(struct mount *mp, uint64_t flags, struct thread *td)
  * Report errors during filesystem mounting.
  */
 void
-vfs_mount_error(struct mount *mp, const char *fmt, ...)
+vfs_mount_error(struct mount *mp, const char * __restrict fmt, ...)
 {
 	struct vfsoptlist *moptlist = mp->mnt_optnew;
 	va_list ap;
@@ -2417,7 +2417,7 @@ vfs_mount_error(struct mount *mp, const char *fmt, ...)
 }
 
 void
-vfs_opterror(struct vfsoptlist *opts, const char *fmt, ...)
+vfs_opterror(struct vfsoptlist *opts, const char * __restrict fmt, ...)
 {
 	va_list ap;
 	int error, len;
@@ -2617,7 +2617,7 @@ vfs_flagopt(struct vfsoptlist *opts, const char *name, uint64_t *w,
 }
 
 int
-vfs_scanopt(struct vfsoptlist *opts, const char *name, const char *fmt, ...)
+vfs_scanopt(struct vfsoptlist *opts, const char *name, const char * __restrict fmt, ...)
 {
 	va_list ap;
 	struct vfsopt *opt;
@@ -2803,7 +2803,7 @@ mount_argb(struct mntarg *ma, int flag, const char *name)
  * Add an argument printf style
  */
 struct mntarg *
-mount_argf(struct mntarg *ma, const char *name, const char *fmt, ...)
+mount_argf(struct mntarg *ma, const char *name, const char * __restrict fmt, ...)
 {
 	va_list ap;
 	struct mntaarg *maa;

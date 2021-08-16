@@ -278,7 +278,7 @@ single_release(struct vnode *v, struct linux_file *f)
 }
 
 void
-lkpi_seq_vprintf(struct seq_file *m, const char *fmt, va_list args)
+lkpi_seq_vprintf(struct seq_file *m, const char * __restrict fmt, va_list args)
 {
 	int ret;
 
@@ -288,7 +288,7 @@ lkpi_seq_vprintf(struct seq_file *m, const char *fmt, va_list args)
 }
 
 void
-lkpi_seq_printf(struct seq_file *m, const char *fmt, ...)
+lkpi_seq_printf(struct seq_file *m, const char * __restrict fmt, ...)
 {
 	va_list args;
 

@@ -131,7 +131,7 @@ acpi_tables_add_device(const struct acpi_device *const dev)
  * Helper routines for writing to the DSDT from other modules.
  */
 void
-dsdt_line(const char *fmt, ...)
+dsdt_line(const char * __restrict fmt, ...)
 {
 	va_list ap;
 

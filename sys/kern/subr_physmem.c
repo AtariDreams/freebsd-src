@@ -102,7 +102,7 @@ long Maxmem;
 
 #ifndef _KERNEL
 static void
-panic(const char *fmt, ...)
+panic(const char * __restrict fmt, ...)
 {
 	va_list va;
 

@@ -66,7 +66,7 @@ void _rtld_atfork_post(int *);
 
 #pragma weak _rtld_error
 void
-_rtld_error(const char *fmt __unused, ...)
+_rtld_error(const char * __restrict fmt __unused, ...)
 {
 }
 

@@ -74,7 +74,7 @@ static int process_into_map(char *line, env_map &emap);
 static void dump_map(env_map &emap, FILE *ofp);
 
 static void __printflike(1, 2)
-errout(const char *fmt, ...)
+errout(const char * __restrict fmt, ...)
 {
 	va_list ap;
 

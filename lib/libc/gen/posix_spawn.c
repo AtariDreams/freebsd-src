@@ -493,7 +493,7 @@ posix_spawn_file_actions_addclose(posix_spawn_file_actions_t *fa,
 
 int
 posix_spawn_file_actions_addchdir_np(posix_spawn_file_actions_t *
-    __restrict fa, const char *__restrict path)
+    __restrict fa, const char * __restrict path)
 {
 	posix_spawn_file_actions_entry_t *fae;
 	int error;
@@ -515,7 +515,7 @@ posix_spawn_file_actions_addchdir_np(posix_spawn_file_actions_t *
 }
 
 int
-posix_spawn_file_actions_addfchdir_np(posix_spawn_file_actions_t *__restrict fa,
+posix_spawn_file_actions_addfchdir_np(posix_spawn_file_actions_t * __restrict fa,
     int fildes)
 {
 	posix_spawn_file_actions_entry_t *fae;

@@ -114,7 +114,7 @@ linux_pwd_onexec_native(struct thread *td)
 }
 
 void
-linux_msg(const struct thread *td, const char *fmt, ...)
+linux_msg(const struct thread *td, const char * __restrict fmt, ...)
 {
 	va_list ap;
 	struct proc *p;

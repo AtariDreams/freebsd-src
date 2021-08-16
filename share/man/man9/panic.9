@@ -48,9 +48,9 @@
 .In sys/systm.h
 .Vt extern char *panicstr;
 .Ft void
-.Fn panic "const char *fmt" ...
+.Fn panic "const char * __restrict fmt" ...
 .Ft void
-.Fn vpanic "const char *fmt" "va_list ap"
+.Fn vpanic "const char * __restrict fmt" "va_list ap"
 .Fn KERNEL_PANICKED
 .Sh DESCRIPTION
 The

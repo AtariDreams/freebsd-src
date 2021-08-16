@@ -169,7 +169,7 @@ tablefull(const char *tab)
  * Uprintf prints to the controlling terminal for the current process.
  */
 int
-uprintf(const char *fmt, ...)
+uprintf(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	struct putchar_arg pca;
@@ -221,7 +221,7 @@ uprintf(const char *fmt, ...)
  * given session, possibly to the log as well.
  */
 void
-tprintf(struct proc *p, int pri, const char *fmt, ...)
+tprintf(struct proc *p, int pri, const char * __restrict fmt, ...)
 {
 	va_list ap;
 
@@ -231,7 +231,7 @@ tprintf(struct proc *p, int pri, const char *fmt, ...)
 }
 
 void
-vtprintf(struct proc *p, int pri, const char *fmt, va_list ap)
+vtprintf(struct proc *p, int pri, const char * __restrict fmt, va_list ap)
 {
 	struct tty *tp = NULL;
 	int flags = 0;
@@ -271,7 +271,7 @@ vtprintf(struct proc *p, int pri, const char *fmt, va_list ap)
 }
 
 static int
-_vprintf(int level, int flags, const char *fmt, va_list ap)
+_vprintf(int level, int flags, const char * __restrict fmt, va_list ap)
 {
 	struct putchar_arg pca;
 	int retval;
@@ -312,7 +312,7 @@ _vprintf(int level, int flags, const char *fmt, va_list ap)
  * log yet, it writes to the console also.
  */
 void
-log(int level, const char *fmt, ...)
+log(int level, const char * __restrict fmt, ...)
 {
 	va_list ap;
 
@@ -322,7 +322,7 @@ log(int level, const char *fmt, ...)
 }
 
 void
-vlog(int level, const char *fmt, va_list ap)
+vlog(int level, const char * __restrict fmt, va_list ap)
 {
 
 	(void)_vprintf(level, log_open ? TOLOG : TOCONS | TOLOG, fmt, ap);
@@ -395,7 +395,7 @@ log_console(struct uio *uio)
 }
 
 int
-printf(const char *fmt, ...)
+printf(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	int retval;
@@ -408,7 +408,7 @@ printf(const char *fmt, ...)
 }
 
 int
-vprintf(const char *fmt, va_list ap)
+vprintf(const char * __restrict fmt, va_list ap)
 {
 	int retval;
 
@@ -653,7 +653,7 @@ ksprintn(char *nbuf, uintmax_t num, int base, int *lenp, int upper)
  *		("%*D", len, ptr, " " -> XX XX XX XX ...
  */
 int
-kvprintf(char const *fmt, void (*func)(int, void*), void *arg, int radix, va_list ap)
+kvprintf(const char * __restrict fmt, void (*func)(int, void*), void *arg, int radix, va_list ap)
 {
 #define PCHAR(c) {int cc=(c); if (func) (*func)(cc,arg); else *d++ = cc; retval++; }
 	char nbuf[MAXNBUF];

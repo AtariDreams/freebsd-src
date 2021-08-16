@@ -84,8 +84,8 @@ int single_open(struct linux_file *, int (*)(struct seq_file *, void *), void *)
 int single_open_size(struct linux_file *, int (*)(struct seq_file *, void *), void *, size_t);
 int single_release(struct inode *, struct linux_file *);
 
-void lkpi_seq_vprintf(struct seq_file *m, const char *fmt, va_list args);
-void lkpi_seq_printf(struct seq_file *m, const char *fmt, ...);
+void lkpi_seq_vprintf(struct seq_file *m, const char * __restrict fmt, va_list args);
+void lkpi_seq_printf(struct seq_file *m, const char * __restrict fmt, ...);
 
 #define	seq_vprintf(...)	lkpi_seq_vprintf(__VA_ARGS__)
 #define	seq_printf(...)		lkpi_seq_printf(__VA_ARGS__)

@@ -67,7 +67,7 @@ struct old_ps_strings {
 #define SPT_BUFSIZE 2048	/* from other parts of sendmail */
 
 static char *
-setproctitle_internal(const char *fmt, va_list ap)
+setproctitle_internal(const char * __restrict fmt, va_list ap)
 {
 	static struct ps_strings *ps_strings;
 	static char *buf = NULL;
@@ -177,7 +177,7 @@ setproctitle_internal(const char *fmt, va_list ap)
 static int fast_update = 0;
 
 void
-setproctitle_fast(const char *fmt, ...)
+setproctitle_fast(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	char *buf;
@@ -199,7 +199,7 @@ setproctitle_fast(const char *fmt, ...)
 }
 
 void
-setproctitle(const char *fmt, ...)
+setproctitle(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	char *buf;

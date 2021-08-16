@@ -1403,7 +1403,7 @@ dofix(struct inodesc *idesc, const char *msg)
  * Print details about a buffer.
  */
 void
-prtbuf(struct bufarea *bp, const char *fmt, ...)
+prtbuf(struct bufarea *bp, const char * __restrict fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
@@ -1423,7 +1423,7 @@ prtbuf(struct bufarea *bp, const char *fmt, ...)
  * otherwise just print message and continue.
  */
 void
-pfatal(const char *fmt, ...)
+pfatal(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
@@ -1474,7 +1474,7 @@ pfatal(const char *fmt, ...)
  * protocol, or a warning (preceded by filename) when preening.
  */
 void
-pwarn(const char *fmt, ...)
+pwarn(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
@@ -1488,7 +1488,7 @@ pwarn(const char *fmt, ...)
  * Stub for routines from kernel.
  */
 void
-panic(const char *fmt, ...)
+panic(const char * __restrict fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
