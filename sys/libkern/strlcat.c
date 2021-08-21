@@ -54,17 +54,15 @@ strlcat(char * __restrict dst, const char * __restrict src, size_t siz)
 	size_t dlen;
 
 	/* Find the end of dst and adjust bytes left but don't go past end */
-	for (;; --n) {
-		if (n == 0)
-			return (siz + strlen(s));
+	for (dlen = 0;; ++dlen, ++d) {
+		if (dlen == siz)
+			return (dlen + strlen(s));
 		if (*d == '\0')
 			break;
 	}
-	dlen = d - dst;
+
 	n = siz - dlen;
 
-	if (n == 0)
-		return(dlen + strlen(s));
 	while (*s != '\0') {
 		if (n != 1) {
 			*d++ = *s;
