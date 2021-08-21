@@ -53,8 +53,7 @@ __weak_reference(__strtok_r, strtok_r);
 char *
 __strtok_r(char * __restrict s, const char * __restrict delim, char ** __restrict last)
 {
-	const char *spanp;
-	char *tok;
+	const char *spanp, *tok;
 	char c, sc;
 
 	if (s == NULL && (s = *last) == NULL)
@@ -65,16 +64,16 @@ __strtok_r(char * __restrict s, const char * __restrict delim, char ** __restric
 	 */
 cont:
 	c = *s++;
-	for (spanp = delim; (sc = *spanp++) != '\0';) {
+	for (spanp = delim; (sc = *spanp++) != 0;) {
 		if (c == sc)
 			goto cont;
 	}
 
-	if (c == '\0') {		/* no non-delimiter characters */
+	if (c == 0) {		/* no non-delimiter characters */
 		*last = NULL;
 		return (NULL);
 	}
-	tok = (char *)(s - 1);
+	tok = s - 1;
 
 	/*
 	 * Scan token (scan for delimiters: s += strcspn(s, delim), sort of).
@@ -85,14 +84,14 @@ cont:
 		spanp = delim;
 		do {
 			if ((sc = *spanp++) == c) {
-				if (c == '\0')
+				if (c == 0)
 					s = NULL;
 				else
 					s[-1] = '\0';
 				*last = s;
-				return (tok);
+				return ((char *)tok);
 			}
-		} while (sc != '\0');
+		} while (sc != 0);
 	}
 	/* NOTREACHED */
 }
