@@ -70,15 +70,15 @@ bcopy(const void *src0, void *dst0, size_t length)
 {
 	if (__predict_false(length == 0))
 		goto done;
+
+	u_char *dst = (u_char *)dst0;
+	const u_char *src = (const u_char *)src0;
+	size_t t;
 	/*
 	 * Macros: loop-t-times; and loop-t-times, t>0
 	 */
 #define	TLOOP(s) for (; t; --t) { s; }
 #define	TLOOP1(s) do { s; } while (--t)
-
-	u_char *dst = (u_char *)dst0;
-	const u_char *src = (const u_char *)src0;
-	size_t t;
 
 #ifndef MEMCOPY
 	if (dst < src) {

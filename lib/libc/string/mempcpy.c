@@ -32,10 +32,12 @@
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
 
+#include <sys/types.h>
+
 #include <string.h>
 
 void *
-mempcpy(void *__restrict dst, const void *__restrict src, size_t len)
+mempcpy(void * __restrict dst, const void * __restrict src, size_t len)
 {
-	return (void *)((unsigned char *)memcpy(dst, src, len) + len);
+	return ((u_char *)memcpy(dst, src, len) + len);
 }
