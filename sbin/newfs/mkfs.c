@@ -890,7 +890,7 @@ fsinit(time_t utime)
 	union dinode node;
 	struct group *grp;
 	gid_t gid;
-	int entries;
+	unsigned int entries;
 
 	memset(&node, 0, sizeof node);
 	if ((grp = getgrnam("operator")) != NULL) {
@@ -981,10 +981,15 @@ fsinit(time_t utime)
  * return size of directory.
  */
 int
-makedir(struct direct *protodir, int entries)
+makedir(struct direct *protodir, unsigned entries)
 {
 	char *cp;
-	int i, spcleft;
+	unsigned int i;
+	
+	if (!entries)
+		return 0;
+	
+	u_int16_t spcleft;
 
 	spcleft = DIRBLKSIZ;
 	memset(iobuf, 0, DIRBLKSIZ);
