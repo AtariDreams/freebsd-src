@@ -469,7 +469,7 @@ static char *
 fc_replace(const char *s, char *p, char *r)
 {
 	char *dest;
-	int plen = strlen(p);
+	size_t plen = strlen(p);
 
 	STARTSTACKSTR(dest);
 	while (*s) {

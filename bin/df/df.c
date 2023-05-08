@@ -569,7 +569,7 @@ prtstat(struct statfs *sfsp, struct maxwidths *mwp)
 		}
 	} else
 		xo_emit("  ");
-	if (strncmp(sfsp->f_mntfromname, "total", MNAMELEN) != 0)
+	if (strcmp(sfsp->f_mntfromname, "total") != 0)
 		xo_emit("  {:mounted-on}", sfsp->f_mntonname);
 	xo_emit("\n");
 	xo_close_instance("filesystem");
