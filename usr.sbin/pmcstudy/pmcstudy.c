@@ -451,7 +451,7 @@ static struct counters *
 find_counter(struct counters *base, const char *name)
 {
 	struct counters *at;
-	int len;
+	size_t len;
 
 	at = base;
 	len = strlen(name);

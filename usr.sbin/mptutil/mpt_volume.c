@@ -246,9 +246,9 @@ volume_cache(int ac, char **av)
 	Settings = volume->VolumeSettings.Settings;
 
 	NewSettings = Settings;
-	if (strncmp(av[2], "enable", sizeof("enable")) == 0)
+	if (strncmp(av[2], "enable", sizeof("enable") - 1) == 0)
 		NewSettings |= 0x01;
-	if (strncmp(av[2], "disable", sizeof("disable")) == 0)
+	else if (strncmp(av[2], "disable", sizeof("disable") - 1) == 0)
 		NewSettings &= ~0x01;
 
 	if (NewSettings == Settings) {

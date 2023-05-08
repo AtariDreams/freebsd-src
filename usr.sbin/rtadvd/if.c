@@ -352,7 +352,7 @@ update_persist_ifinfo(struct ifilist_head_t *ifi_head, const char *ifname)
 				break;
 		} else {
 			if (strncmp(ifname, ifi->ifi_ifname,
-				sizeof(ifi->ifi_ifname)) == 0)
+				sizeof(ifi->ifi_ifname) ) == 0)
 				break;
 		}
 	}
