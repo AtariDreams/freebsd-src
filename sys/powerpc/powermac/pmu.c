@@ -401,7 +401,7 @@ pmu_attach(device_t dev)
 		if (bootverbose)
 			device_printf(dev, "PMU child <%s>\n",name);
 
-		if (strncmp(name, "adb", 4) == 0) {
+		if (strncmp(name, "adb", 3) == 0) {
 			sc->adb_bus = device_add_child(dev,"adb",-1);
 		}
 

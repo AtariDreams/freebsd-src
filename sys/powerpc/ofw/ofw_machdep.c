@@ -519,7 +519,7 @@ ofw_mem_regions(struct mem_region *memp, int *memsz,
 	    phandle = OF_peer(phandle)) {
 		if (OF_getprop(phandle, "name", name, sizeof(name)) <= 0)
 			continue;
-		if (strncmp(name, "memory", sizeof(name)) != 0 &&
+		if (strcmp(name, "memory") != 0 &&
 		    strncmp(name, "memory@", strlen("memory@")) != 0)
 			continue;
 

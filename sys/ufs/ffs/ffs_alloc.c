@@ -3234,7 +3234,7 @@ sysctl_ffs_fsck(SYSCTL_HANDLER_ARGS)
 	}
 	vn_start_write(vp, &mp, V_WAIT);
 	if (mp == NULL ||
-	    strncmp(mp->mnt_stat.f_fstypename, "ufs", MFSNAMELEN)) {
+	    strcmp(mp->mnt_stat.f_fstypename, "ufs")) {
 		vn_finished_write(mp);
 		fdrop(fp, td);
 		return (EINVAL);

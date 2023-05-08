@@ -339,7 +339,7 @@ smu_attach(device_t dev)
 		memset(name, 0, sizeof(name));
 		OF_getprop(child, "name", name, sizeof(name));
 
-		if (strncmp(name, "sensors", 8) == 0)
+		if (strncmp(name, "sensors", 7) == 0)
 			smu_attach_sensors(dev, child);
 
 		if (strncmp(name, "smu-i2c-control", 15) == 0)
@@ -967,9 +967,9 @@ smu_count_fans(device_t dev)
 		char name[32];
 		memset(name, 0, sizeof(name));
 		OF_getprop(root, "name", name, sizeof(name));
-		if (strncmp(name, "rpm-fans", 9) == 0 ||
-		    strncmp(name, "pwm-fans", 9) == 0 ||
-		    strncmp(name, "fans", 5) == 0)
+		if (strncmp(name, "rpm-fans", 8) == 0 ||
+		    strncmp(name, "pwm-fans", 8) == 0 ||
+		    strncmp(name, "fans", 4) == 0)
 			for (child = OF_child(root); child != 0;
 			     child = OF_peer(child)) {
 				nfans++;
