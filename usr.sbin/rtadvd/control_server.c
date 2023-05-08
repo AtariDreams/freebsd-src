@@ -545,15 +545,15 @@ cm_setprop(struct ctrl_msg_pl *cp)
 	if (cp == NULL || cp->cp_key == NULL)
 		return (1);
 
-	if (strncmp(cp->cp_key, "reload", sizeof("reload")) == 0)
+	if (strncmp(cp->cp_key, "reload", sizeof("reload") - 1) == 0)
 		cm_setprop_reload(cp);
-	else if (strncmp(cp->cp_key, "shutdown", sizeof("shutdown")) == 0)
+	else if (strncmp(cp->cp_key, "shutdown", sizeof("shutdown") - 1) == 0)
 		set_do_shutdown(0);
-	else if (strncmp(cp->cp_key, "enable", sizeof("enable")) == 0)
+	else if (strncmp(cp->cp_key, "enable", sizeof("enable") - 1) == 0)
 		cm_setprop_enable(cp);
-	else if (strncmp(cp->cp_key, "disable", sizeof("disable")) == 0)
+	else if (strncmp(cp->cp_key, "disable", sizeof("disable") - 1) == 0)
 		cm_setprop_disable(cp);
-	else if (strncmp(cp->cp_key, "echo", 8) == 0)
+	else if (strncmp(cp->cp_key, "echo", 4) == 0)
 		; 		/* do nothing */
 	else
 		return (1);
