@@ -388,22 +388,25 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			      struct drm_framebuffer *old_fb)
 {
 	struct drm_device *dev = crtc->dev;
-	struct drm_display_mode *adjusted_mode, saved_mode, saved_hwmode;
+	struct drm_display_mode *adjusted_mode, saved_mode;
 	struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
 	struct drm_encoder_helper_funcs *encoder_funcs;
 	int saved_x, saved_y;
+	bool enabled_backup;
 	struct drm_encoder *encoder;
 	bool ret = true;
 
+	enabled_backup = crtc->enabled;
 	crtc->enabled = drm_helper_crtc_in_use(crtc);
 	if (!crtc->enabled)
 		return true;
 
 	adjusted_mode = drm_mode_duplicate(dev, mode);
-	if (!adjusted_mode)
+	if (!adjusted_mode) {
+		crtc->enabled = enabled_backup;
 		return false;
+	}
 
-	saved_hwmode = crtc->hwmode;
 	saved_mode = crtc->mode;
 	saved_x = crtc->x;
 	saved_y = crtc->y;
@@ -437,12 +440,18 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	}
 	DRM_DEBUG_KMS("[CRTC:%d]\n", crtc->base.id);
 
+	/* Store real post-adjustment hardware mode. */
+	crtc->hwmode = *adjusted_mode;
+
 	/* Prepare the encoders and CRTCs before setting the mode. */
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
 
 		if (encoder->crtc != crtc)
 			continue;
 		encoder_funcs = encoder->helper_private;
+
+		if (!encoder_funcs)
+			continue;
 		/* Disable the encoders as the first thing we do. */
 		encoder_funcs->prepare(encoder);
 	}
@@ -467,6 +476,9 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			encoder->base.id, drm_get_encoder_name(encoder),
 			mode->base.id, mode->name);
 		encoder_funcs = encoder->helper_private;
+
+		if (!encoder_funcs)
+			continue;
 		encoder_funcs->mode_set(encoder, mode, adjusted_mode);
 	}
 
@@ -479,12 +491,12 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			continue;
 
 		encoder_funcs = encoder->helper_private;
+
+		if (!encoder_funcs)
+			continue;
 		encoder_funcs->commit(encoder);
 
 	}
-
-	/* Store real post-adjustment hardware mode. */
-	crtc->hwmode = *adjusted_mode;
 
 	/* Calculate and store various constants which
 	 * are later needed by vblank and swap-completion
@@ -496,7 +508,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 done:
 	drm_mode_destroy(dev, adjusted_mode);
 	if (!ret) {
-		crtc->hwmode = saved_hwmode;
+		crtc->enabled = enabled_backup;
 		crtc->mode = saved_mode;
 		crtc->x = saved_x;
 		crtc->y = saved_y;
@@ -552,7 +564,6 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 	struct drm_device *dev;
 	struct drm_crtc *save_crtcs, *new_crtc, *crtc;
 	struct drm_encoder *save_encoders, *new_encoder, *encoder;
-	struct drm_framebuffer *old_fb = NULL;
 	bool mode_changed = false; /* if true do a full mode set */
 	bool fb_changed = false; /* if true and !mode_changed just do a flip */
 	struct drm_connector *save_connectors, *connector;
@@ -575,6 +586,7 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 
 	crtc_funcs = set->crtc->helper_private;
 
+	dev = set->crtc->dev;
 	if (!set->mode)
 		set->fb = NULL;
 
@@ -587,23 +599,21 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 		return drm_crtc_helper_disable(set->crtc);
 	}
 
-	dev = set->crtc->dev;
-
 	/* Allocate space for the backup of all (non-pointer) crtc, encoder and
 	 * connector data. */
-	save_crtcs = malloc(dev->mode_config.num_crtc *
+	save_crtcs = calloc(dev->mode_config.num_crtc,
 			     sizeof(struct drm_crtc), DRM_MEM_KMS, M_NOWAIT | M_ZERO);
 	if (!save_crtcs)
 		return -ENOMEM;
 
-	save_encoders = malloc(dev->mode_config.num_encoder *
+	save_encoders = calloc(dev->mode_config.num_encoder,
 				sizeof(struct drm_encoder), DRM_MEM_KMS, M_NOWAIT | M_ZERO);
 	if (!save_encoders) {
 		free(save_crtcs, DRM_MEM_KMS);
 		return -ENOMEM;
 	}
 
-	save_connectors = malloc(dev->mode_config.num_connector *
+	save_connectors = calloc(dev->mode_config.num_connector,
 				sizeof(struct drm_connector), DRM_MEM_KMS, M_NOWAIT | M_ZERO);
 	if (!save_connectors) {
 		free(save_crtcs, DRM_MEM_KMS);
@@ -672,12 +682,18 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 		new_encoder = connector->encoder;
 		for (ro = 0; ro < set->num_connectors; ro++) {
 			if (set->connectors[ro] == connector) {
-				new_encoder = connector_funcs->best_encoder(connector);
+				if (connector_funcs->best_encoder)
+					new_encoder = connector_funcs->best_encoder(connector);
 				/* if we can't get an encoder for a connector
 				   we are setting now - then fail */
 				if (new_encoder == NULL)
 					/* don't break so fail path works correct */
 					fail = 1;
+				
+				if (connector->dpms != DRM_MODE_DPMS_ON) {
+					DRM_DEBUG_KMS("connector dpms not on, full mode switch\n");
+					mode_changed = true;
+				}
 				break;
 			}
 		}
@@ -745,14 +761,13 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 			DRM_DEBUG_KMS("attempting to set mode from"
 					" userspace\n");
 			drm_mode_debug_printmodeline(set->mode);
-			old_fb = set->crtc->fb;
 			set->crtc->fb = set->fb;
 			if (!drm_crtc_helper_set_mode(set->crtc, set->mode,
 						      set->x, set->y,
-						      old_fb)) {
+						      save_set.fb)) {
 				DRM_ERROR("failed to set mode on [CRTC:%d]\n",
 					  set->crtc->base.id);
-				set->crtc->fb = old_fb;
+				set->crtc->fb = save_set.fb;
 				ret = -EINVAL;
 				goto fail;
 			}
@@ -767,14 +782,13 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 	} else if (fb_changed) {
 		set->crtc->x = set->x;
 		set->crtc->y = set->y;
-
-		old_fb = set->crtc->fb;
-		if (set->crtc->fb != set->fb)
-			set->crtc->fb = set->fb;
+		set->crtc->fb = set->fb;
 		ret = crtc_funcs->mode_set_base(set->crtc,
-						set->x, set->y, old_fb);
+						set->x, set->y, save_set.fb);
 		if (ret != 0) {
-			set->crtc->fb = old_fb;
+			set->crtc->x = save_set.x;
+			set->crtc->y = save_set.y;
+			set->crtc->fb = save_set.fb;
 			goto fail;
 		}
 	}
